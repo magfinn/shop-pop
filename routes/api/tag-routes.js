@@ -7,15 +7,9 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   Tag.findAll({
-    attributes: ['id', 'tag_name'],
-    include: [
-      {
-        model: Product,
-        attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
-      },
-    ],
+    include: [{ model: Product }],
   })
-    .then((dbTag) => res.json(dbTag))
+    .then((dbTagData) => res.json(dbTagData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -29,20 +23,14 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id,
     },
-    attributes: ['id', 'tag_name'],
-    includes: [
-      {
-        model: Product,
-        attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
-      },
-    ],
+    include: [{ model: Product }],
   })
-    .then((dbTag) => {
-      if (!dbTag) {
+    .then((dbTagData) => {
+      if (!dbTagData) {
         res.status(404).json({ message: 'No tag associated with this id' });
         return;
       }
-      res.json(dbTag);
+      res.json(dbTagData);
     })
     .catch((err) => {
       console.log(err);
@@ -55,7 +43,7 @@ router.post('/', (req, res) => {
   Tag.create({
     tag_name: req.body.tag_name,
   })
-    .then((dbTag) => res.json(dbTag))
+    .then((dbTagData) => res.json(dbTagData))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -69,12 +57,12 @@ router.put('/:id', (req, res) => {
       id: req.params.id,
     },
   })
-    .then((dbTag) => {
-      if (!dbTag[0]) {
+    .then((dbTagData) => {
+      if (!dbTagData[0]) {
         res.status(404).json({ message: 'No tag associated with this id' });
         return;
       }
-      res.json(dbTag);
+      res.json(dbTagData);
     })
     .catch((err) => {
       console.log(err);
@@ -89,12 +77,12 @@ router.delete('/:id', (req, res) => {
       id: req.params.id,
     },
   })
-    .then((dbTag) => {
-      if (!dbTag) {
+    .then((dbTagData) => {
+      if (!dbTagData) {
         res.status(404).json({ message: 'No tag associated with this id' });
         return;
       }
-      res.json(dbTag);
+      res.json(dbTagData);
     })
     .catch((err) => {
       console.log(err);

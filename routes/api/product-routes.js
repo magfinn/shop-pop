@@ -3,24 +3,13 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 
-// get all products
 router.get('/', (req, res) => {
   // find all products
   Product.findAll({
-    attributes: ['id', 'product_name','price', 'stock', 'category_id'],
-    include: [
-      {
-        model: Category,
-        attributes: ['id', 'category_name']
-      },
-      {
-        model: Tag,
-        attributes: ['id', 'tag_name']
-      }
-    ]
+    include: [{ model: Category }, { model: Tag }],
   })
-    .then(dbProduct => res.son(dbProduct))
-    .catch(err => {
+    .then((dbProductData) => res.json(dbProductData))
+    .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
@@ -31,28 +20,18 @@ router.get('/:id', (req, res) => {
   // find a single product by its `id`
   Product.findOne({
     where: {
-      id: req.params.id
+      id: req.params.id,
     },
-    attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
-    include: [
-      {
-        model: Category,
-        attributes: ['id', 'category_name']
-      },
-      {
-        model: Tag,
-        attributes: ['id', 'tag_name']
-      }
-    ]
+    include: [{ model: Category }, { model: Tag }],
   })
-    .then(dbProduct => {
-      if (!dbProduct) {
+    .then((dbProductData) => {
+      if (!dbProductData) {
         res.status(404).json({ message: 'Product id does not exist' });
         return;
       }
-      res.json(dbProduct);
+      res.json(dbProductData);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
@@ -134,22 +113,22 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
-  Product.destroy({ 
+  Product.destroy({
     where: {
-      id: req.params.id 
-    } 
+      id: req.params.id,
+    },
   })
-  .then(dbProduct => {
-    if(!dbProduct) {
-      res.status(404).json({ message: 'No product found with this id' });
-      return;
-    }
-    res.json(dbProduct);
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
-  });
+    .then((dbProductData) => {
+      if (!dbProductData) {
+        res.status(404).json({ message: 'No product found with this id' });
+        return;
+      }
+      res.json(dbProductData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;
