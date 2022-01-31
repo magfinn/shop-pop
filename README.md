@@ -53,7 +53,11 @@ Start your server:
 
 ## MySQL Demo
 
+<a href="https://watch.screencastify.com/v/cVIxwnxB77rzPbxQRmaH"> View Database Set-up Demo </a>
+
 ## Program Demo
+
+<a href="https://watch.screencastify.com/v/ifA7IxURryj3PVJtKmQj"> Watch Testing Demo in Insomnia </a>
 
 ## 🚥 Tests
 
