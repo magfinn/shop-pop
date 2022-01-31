@@ -54,6 +54,11 @@ router.post('/', (req, res) => {
     });
 });
 
+// Category.create(req.body)
+//     .then((category) => res.status(200).json(category))
+//     .catch((err) => res.status(400).json(err));
+// });
+
 //PUT/ Update category by ID
 router.put('/:id', (req, res) => {
   Category.update(req.body, {
