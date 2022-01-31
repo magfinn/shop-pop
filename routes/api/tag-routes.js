@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   Tag.findAll({
-    include: [{ model: Product }],
+    include: { model: Product, through: ProductTag }
   })
     .then((dbTagData) => res.json(dbTagData))
     .catch((err) => {
@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id,
     },
-    include: [{ model: Product }],
+    include: { model: Product, through: ProductTag }
   })
     .then((dbTagData) => {
       if (!dbTagData) {
@@ -47,7 +47,7 @@ router.post('/', (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
-    });
+    })
 });
 
 router.put('/:id', (req, res) => {
@@ -58,7 +58,7 @@ router.put('/:id', (req, res) => {
     },
   })
     .then((dbTagData) => {
-      if (!dbTagData[0]) {
+      if (!dbTagData) {
         res.status(404).json({ message: 'No tag associated with this id' });
         return;
       }

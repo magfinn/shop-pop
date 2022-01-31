@@ -1,7 +1,7 @@
-require('dotenv').config();
+// require('dotenv').config();
 const Sequelize = require('sequelize');
 
-//another way to set up server
+// //another way to set up server
 const sequelize = new Sequelize('ecommerce_db', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
